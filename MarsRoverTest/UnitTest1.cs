@@ -197,6 +197,105 @@ namespace MarsRoverTest
             MissionControl.Plateaus.Should().Contain(testPlateau);
         }
 
+        [Test]
+        public void DeployRoverTest()
+        {
+            var rover = new Rover();
+            var plateau = new Plateau(new PlateauSize(4, 4), "Test");
 
+            MissionControl.DeployRover(rover, plateau, new Position());
+
+            plateau.Rovers.Count.Should().Be(1);
+            rover.Plateau.Should().Be(plateau);
+            rover.Position.Should().BeEquivalentTo(new Position());
+        }
+
+        [Test]
+        public void DeployRoverToFullPlateauTest()
+        {
+            var rover = new Rover();
+            var rover2 = new Rover();
+            var plateau = new Plateau(new PlateauSize(1, 1), "Test");
+
+            plateau.MaximumCapacity.Should().Be(1);
+
+            MissionControl.DeployRover(rover,plateau, new Position());
+            plateau.Rovers.Count().Should().Be(1);
+
+            MissionControl.DeployRover(rover2, plateau, new Position());
+            plateau.Rovers.Should().Contain(rover);
+            plateau.Rovers.Should().NotContain(rover2);
+
+        }
+
+        [Test]
+        public void DeployRoverWithInvalidPosition()
+        {
+            var rover = new Rover();
+            var plateau = new Plateau(3, 3, "Test");
+
+            MissionControl.DeployRover(rover, plateau, new Position(4, 6, Directions.SOUTH));
+
+            plateau.Rovers.Count.Should().Be(0);
+        }
+
+        [Test]
+        public void DeployRoverToOccupiedPosition()
+        {
+            var rover = new Rover();
+            var rover2 = new Rover();
+
+            var plateau = new Plateau(new PlateauSize(4, 4), "Test");
+            MissionControl.DeployRover(rover, plateau, new Position());
+
+            plateau.Rovers.Count.Should().Be(1);
+
+            MissionControl.DeployRover(rover, plateau, new Position());
+            plateau.Rovers.Count.Should().Be(1);
+        }
+
+        [Test]
+        public void MoveRoverTest()
+        {
+            var rover = new Rover();
+            var plateau = new Plateau(3, 3, "Test");
+
+            MissionControl.DeployRover(rover, plateau, new Position());
+
+            rover.Move(Instruction.RIGHT);
+            rover.Move(Instruction.MOVE);
+
+            rover.Position.Should().BeEquivalentTo(new Position(1, 0, Directions.EAST));
+        }
+
+        [Test]
+        public void MoveRoverOffGridTest()
+        {
+            var rover = new Rover();
+            var plateau = new Plateau(3, 3, "Test");
+
+            MissionControl.DeployRover(rover, plateau, new Position());
+
+            rover.Move(Instruction.LEFT);
+            rover.Move(Instruction.MOVE);
+
+            rover.Position.Should().BeEquivalentTo(new Position(0, 0, Directions.WEST));
+        }
+
+        [Test]
+        public void MoveRoverIntoOccupiedSpaceTest()
+        {
+            var rover = new Rover();
+            var plateau = new Plateau(3, 3, "Test");
+
+            MissionControl.DeployRover(rover, plateau, new Position(0, 1, Directions.NORTH));
+
+            var rover2 = new Rover();
+            MissionControl.DeployRover(rover2, plateau, new Position());
+
+            rover2.Move(Instruction.MOVE);
+
+            rover2.Position.Should().BeEquivalentTo(new Position());
+        }
     }
 }

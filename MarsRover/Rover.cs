@@ -9,7 +9,7 @@ namespace MarsRover
     public class Rover
     {
         public int ID { get; }
-        public Position? Position { get; private set; }
+        public Position? Position { get; set; }
         public Plateau? Plateau { get; set; }
 
         public static int RoverCount = 0;
@@ -23,7 +23,105 @@ namespace MarsRover
 
         public void Move(Instruction instruction)
         {
+            if (instruction == Instruction.RIGHT)
+            {
+                switch (Position.Facing)
+                {
+                    case Directions.NORTH:
+                        Position.Facing = Directions.EAST;
+                        break;
+                    case Directions.EAST:
+                        Position.Facing = Directions.SOUTH;
+                        break;
+                    case Directions.SOUTH:
+                        Position.Facing = Directions.WEST;
+                        break;
+                    case Directions.WEST:
+                        Position.Facing = Directions.NORTH;
+                        break;
+                }
+            }
 
+            if (instruction == Instruction.LEFT)
+            {
+                switch (Position.Facing)
+                {
+                    case Directions.NORTH:
+                        Position.Facing = Directions.WEST;
+                        break;
+                    case Directions.EAST:
+                        Position.Facing = Directions.NORTH;
+                        break;
+                    case Directions.SOUTH:
+                        Position.Facing = Directions.EAST;
+                        break;
+                    case Directions.WEST:
+                        Position.Facing = Directions.SOUTH;
+                        break;
+                }
+            }
+
+            if (instruction == Instruction.MOVE)
+            {
+                MoveForward();
+            }
+        }
+
+        private void MoveForward()
+        {
+            if (IsNotAtEdge() && SpaceIsUnoccupied(out Position nextPosition))
+            {
+                Position = nextPosition;
+            }
+            else Console.WriteLine("Movement is invalid.");
+        }
+
+        private bool IsNotAtEdge()
+        {
+            if (Position.Facing == Directions.NORTH)
+            {
+                if (Position.Y == Plateau.Size.Ysize - 1) return false;
+                else return true;
+            }
+            else if (Position.Facing == Directions.EAST)
+            {
+                if (Position.X == Plateau.Size.Xsize - 1) return false;
+                else return true;
+            }
+            else if (Position.Facing == Directions.SOUTH)
+            {
+                if (Position.Y == 0) return false;
+                else return true;
+            }
+            else
+            {
+                if (Position.X == 0) return false;
+                else return true;
+            }
+        }
+
+        private bool SpaceIsUnoccupied(out Position nextPosition)
+        {
+            Position newPosition = Position.Facing switch
+            {
+                Directions.NORTH => new Position(Position.X, Position.Y + 1, Directions.NORTH),
+                Directions.EAST => new Position(Position.X + 1, Position.Y, Directions.EAST),
+                Directions.SOUTH => new Position(Position.X, Position.Y - 1, Directions.SOUTH),
+                Directions.WEST => new Position(Position.X - 1, Position.Y, Directions.WEST),
+                _ => throw new ArgumentException("Not a valid direction.")
+            };
+
+            nextPosition = newPosition;
+
+            foreach (Rover rover in Plateau.Rovers)
+            {
+                if (rover.Position.X == newPosition.X && rover.Position.Y == newPosition.Y)
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
 
         public override string ToString()

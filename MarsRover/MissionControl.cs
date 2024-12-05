@@ -11,13 +11,6 @@ namespace MarsRover
         public static List<Rover> Rovers = new List<Rover>();
         public static List<Plateau> Plateaus = new List<Plateau>();
 
-/*        public static Rover BuildRover()
-        {
-            Rover rover = new Rover();
-            Rovers.Add(rover);
-            return rover;
-        }*/
-
         public static void FileForBankRuptcy()
         {
             Rovers.Clear();
@@ -25,22 +18,27 @@ namespace MarsRover
             Plateaus.Clear();
         }
 
-/*        public static Plateau RegisterPlateau(int plateauSizeX, int plateauSizeY, string name)
-        {
-           PlateauSize size = new PlateauSize(plateauSizeX, plateauSizeY);
-
-           return RegisterPlateau(size, name);
-        }*/
-
-/*        public static Plateau RegisterPlateau(PlateauSize size, string name)
-        {
-            Plateau result = new Plateau(size, name);
-            Plateaus.Add(result);
-            return result;
-        }*/
-
         public static void DeployRover(Rover rover, Plateau plateau, Position position)
         {
+            foreach (Rover existingRover in plateau.Rovers)
+            {
+                if (existingRover.Position.X == position.X && existingRover.Position.Y == position.Y)
+                {
+                    Console.WriteLine("A rover is present at this location already.");
+                    return;
+                }
+            }
+
+            if (position.X > plateau.Size.Xsize - 1 || position.Y > plateau.Size.Ysize - 1)
+            {
+                Console.WriteLine("That position does not exist on this Plateau.");
+                return;
+            }
+
+            rover.Position = position;
+            plateau.AddRover(rover);
+
+            Console.WriteLine($"Rover {rover.ID} deployed to {plateau.Name}.");
 
         }
 
