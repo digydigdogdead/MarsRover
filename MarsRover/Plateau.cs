@@ -14,7 +14,7 @@ namespace MarsRover
         public int MaximumCapacity { get; set; }
 
 
-        public Plateau(PlateauSize size, string name)
+        internal Plateau(PlateauSize size, string name)
         {
             Size = size;
             Name = name;

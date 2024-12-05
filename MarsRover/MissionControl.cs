@@ -17,5 +17,28 @@ namespace MarsRover
             Rovers.Add(rover);
             return rover;
         }
+
+        public static void FileForBankRuptcy()
+        {
+            Rovers.Clear();
+            Rover.RoverCount = 0;
+            Plateaus.Clear();
+        }
+
+        public static Plateau RegisterPlateau(int plateauSizeX, int plateauSizeY, string name)
+        {
+           PlateauSize size = new PlateauSize(plateauSizeX, plateauSizeY);
+
+           return RegisterPlateau(size, name);
+        }
+
+        public static Plateau RegisterPlateau(PlateauSize size, string name)
+        {
+            Plateau result = new Plateau(size, name);
+            Plateaus.Add(result);
+            return result;
+        }
+
+
     }
 }

@@ -9,6 +9,7 @@ namespace MarsRoverTest
         [SetUp]
         public void Setup()
         {
+            MissionControl.FileForBankRuptcy();
         }
 
         [Test]
@@ -108,7 +109,7 @@ namespace MarsRoverTest
         [Test]
         public void AddRoverTest()
         {
-            Plateau testPlateau = new Plateau(new PlateauSize(4, 4), "Test");
+            Plateau testPlateau = MissionControl.RegisterPlateau(4, 4, "Test");
             Rover testRover = MissionControl.BuildRover();
 
             testPlateau.AddRover(testRover);
@@ -121,7 +122,7 @@ namespace MarsRoverTest
         [Test]
         public void RemoveRoverTest()
         {
-            Plateau testPlateau = new Plateau(new PlateauSize(4, 4), "Test");
+            Plateau testPlateau = MissionControl.RegisterPlateau(4,4, "Test");
             Rover testRover = MissionControl.BuildRover();
 
             testPlateau.AddRover(testRover);
@@ -135,7 +136,7 @@ namespace MarsRoverTest
         [Test]
         public void RemoveNonExistantRoverTest()
         {
-            Plateau testPlateau = new Plateau(new PlateauSize(4, 4), "Test");
+            Plateau testPlateau = MissionControl.RegisterPlateau(4,4, "Test");
             Rover testRover = MissionControl.BuildRover();
 
             Action removeRover = () => testPlateau.RemoveRover(testRover);
@@ -145,7 +146,7 @@ namespace MarsRoverTest
         [Test]
         public void AddRoverToFullPlateauTest()
         {
-            Plateau testPlateau = new Plateau(new PlateauSize(1, 1), "Test");
+            Plateau testPlateau = MissionControl.RegisterPlateau(1,1, "Test");
             testPlateau.MaximumCapacity.Should().Be(1);
 
             Rover testRover = MissionControl.BuildRover();
@@ -161,7 +162,7 @@ namespace MarsRoverTest
         [Test]
         public void AddRoverToPlateauTwiceTest()
         {
-            Plateau testPlateau = new Plateau(new PlateauSize(3, 3), "Test");
+            Plateau testPlateau = MissionControl.RegisterPlateau(3, 3, "Test");
             Rover testRover = MissionControl.BuildRover();
 
             testPlateau.AddRover(testRover);
@@ -182,6 +183,18 @@ namespace MarsRoverTest
 
             rover1.ID.Should().Be(1);
             rover2.ID.Should().Be(2);
+        }
+
+        [Test]
+        public void RegisterPlateauTest()
+        {
+            var testPlateau = MissionControl.RegisterPlateau(4, 4, "Test");
+            testPlateau.Name.Should().Be("Test");
+            testPlateau.Size.Xsize.Should().Be(4);
+            testPlateau.Size.Ysize.Should().Be(4);
+
+            MissionControl.Plateaus.Count.Should().Be(1);
+            MissionControl.Plateaus.Should().Contain(testPlateau);
         }
     }
 }

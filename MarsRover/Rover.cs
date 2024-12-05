@@ -12,7 +12,7 @@ namespace MarsRover
         public Position? Position { get; private set; }
         public Plateau? Plateau { get; set; }
 
-        private static int RoverCount = 0;
+        public static int RoverCount = 0;
 
         internal Rover()
         {
