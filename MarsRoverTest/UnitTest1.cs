@@ -32,5 +32,24 @@ namespace MarsRoverTest
 
             invalidInput.Should().Throw<ArgumentException>();
         }
+
+        [Test]
+        public void ParseInstructionsTest() 
+        {
+            var resultL = InputParser.ParseInstruction('L');
+            var resultR = InputParser.ParseInstruction('R');
+            var resultM = InputParser.ParseInstruction('M');
+
+            resultL.Should().Be(Instruction.LEFT);
+            resultR.Should().Be(Instruction.RIGHT);
+            resultM.Should().Be(Instruction.MOVE);
+        }
+
+        [Test]
+        public void ParseInvalidInstructionTest()
+        {
+            Action invalidInput = () => { InputParser.ParseInstruction('d'); };
+            invalidInput.Should().Throw<ArgumentException>();
+        }
     }
 }
