@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MarsRover.InputClasses;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -122,6 +123,14 @@ namespace MarsRover
             }
 
             return true;
+        }
+
+        public void ReceiveInstructions(string instructions)
+        {
+            foreach(char c in instructions)
+            {
+                Move(InputParser.ParseInstruction(c));
+            }
         }
 
         public override string ToString()

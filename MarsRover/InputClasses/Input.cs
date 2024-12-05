@@ -8,5 +8,6 @@ namespace MarsRover.InputClasses
 {
     internal class Input
     {
+
     }
 }
