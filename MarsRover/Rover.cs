@@ -14,11 +14,15 @@ namespace MarsRover
 
         private static int RoverCount = 0;
 
-        public Rover(Position startingPosition)
+        internal Rover()
         {
-            Position = startingPosition;
             RoverCount++;
             ID = RoverCount;
+        }
+
+        public void Move(Instruction instruction)
+        {
+
         }
 
         public override string ToString()

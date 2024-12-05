@@ -11,16 +11,30 @@ namespace MarsRover
         public PlateauSize Size { get; }
         public List<Rover> Rovers { get; private set; } = new List<Rover>();
         public string Name { get; set; }
+        public int MaximumCapacity { get; set; }
 
 
         public Plateau(PlateauSize size, string name)
         {
             Size = size;
             Name = name;
+            MaximumCapacity = Size.Xsize * Size.Ysize;
         }
 
         public void AddRover(Rover rover)
         {
+            if (Rovers.Count == MaximumCapacity)
+            {
+                Console.WriteLine("Cannot add more rovers to this Plateau. It is full.");
+                return;
+            }
+
+            if (rover.Plateau == this)
+            {
+                Console.WriteLine("This Rover is already at this location.");
+                return;
+            }
+            
             Rovers.Add(rover);
             rover.Plateau = this;
         }
