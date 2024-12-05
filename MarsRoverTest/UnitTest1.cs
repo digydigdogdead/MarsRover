@@ -117,5 +117,29 @@ namespace MarsRoverTest
             testPlateau.Rovers.Count().Should().Be(1);
             testPlateau.Rovers.Should().Contain(testRover);
         }
+
+        [Test]
+        public void RemoveRoverTest()
+        {
+            Plateau testPlateau = new Plateau(new PlateauSize(4, 4), "Test");
+            Rover testRover = new Rover(new Position());
+
+            testPlateau.AddRover(testRover);
+
+            testPlateau.RemoveRover(testRover);
+
+            testPlateau.Rovers.Count.Should().Be(0);
+            testRover.Plateau.Should().BeNull();
+        }
+
+        [Test]
+        public void RemoveNonExistantRoverTest()
+        {
+            Plateau testPlateau = new Plateau(new PlateauSize(4, 4), "Test");
+            Rover testRover = new Rover(new Position());
+
+            Action removeRover = () => testPlateau.RemoveRover(testRover);
+            removeRover.Should().Throw<NullReferenceException>();
+        }
     }
 }

@@ -9,7 +9,7 @@ namespace MarsRover
     public class Plateau
     {
         public PlateauSize Size { get; }
-        public List<Rover> Rovers { get; set; } = new List<Rover>();
+        public List<Rover> Rovers { get; private set; } = new List<Rover>();
         public string Name { get; set; }
 
 
@@ -23,6 +23,14 @@ namespace MarsRover
         {
             Rovers.Add(rover);
             rover.Plateau = this;
+        }
+
+        public void RemoveRover(Rover rover)
+        {
+            if (!Rovers.Contains(rover)) throw new NullReferenceException("That Rover is not present in this Plateau");
+
+            Rovers.Remove(rover);
+            rover.Plateau = null;
         }
 
 
