@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MarsRover
 {
-    internal enum Directions
+    public enum Directions
     {
         NORTH,
         EAST,

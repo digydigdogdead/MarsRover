@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MarsRover
 {
-    internal enum Instruction
+    public enum Instruction
     {
         LEFT,
         RIGHT,

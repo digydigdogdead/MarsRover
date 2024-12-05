@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MarsRover.InputClasses
 {
-    internal static class InputParser
+    public static class InputParser
     {
         public static Instruction ParseInstruction(char input) => input switch
         {
