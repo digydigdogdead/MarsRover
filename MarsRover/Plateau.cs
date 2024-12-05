@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MarsRover
 {
-    internal class Plateau
+    public class Plateau
     {
         public PlateauSize Size { get; }
         public List<Rover> Rovers { get; set; } = new List<Rover>();
@@ -19,10 +19,17 @@ namespace MarsRover
             Name = name;
         }
 
+        public void AddRover(Rover rover)
+        {
+            Rovers.Add(rover);
+            rover.Plateau = this;
+        }
+
 
         public override string ToString()
         {
             return $"{Name} Plateau.";
         }
+
     }
 }

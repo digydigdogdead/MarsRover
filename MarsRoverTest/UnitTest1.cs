@@ -104,5 +104,18 @@ namespace MarsRoverTest
             Action notNumbersInput = () => Creator.CreatePlateauSize("4 J");
             notNumbersInput.Should().Throw<ArgumentException>();
         }
+
+        [Test]
+        public void AddRoverTest()
+        {
+            Plateau testPlateau = new Plateau(new PlateauSize(4, 4), "Test");
+            Rover testRover = new Rover(new Position());
+
+            testPlateau.AddRover(testRover);
+            
+            testRover.Plateau.Should().Be(testPlateau);
+            testPlateau.Rovers.Count().Should().Be(1);
+            testPlateau.Rovers.Should().Contain(testRover);
+        }
     }
 }
