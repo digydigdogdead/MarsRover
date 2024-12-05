@@ -8,7 +8,7 @@ namespace MarsRover
 {
     public class Plateau
     {
-        public PlateauSize Size { get; }
+        public PlateauSize Size { get; private set; }
         public List<Rover> Rovers { get; private set; } = new List<Rover>();
         public string Name { get; set; }
         public int MaximumCapacity { get; set; }
@@ -16,12 +16,14 @@ namespace MarsRover
         public Plateau(int sizex, int sizey, string name)
         {
             PlateauSize size = new PlateauSize(sizex, sizey);
-            Size = size;
-            Name = name;
-            MaximumCapacity = Size.Xsize * Size.Ysize;
-            MissionControl.Plateaus.Add(this);
+            SetUpPlateau(size, name);
         }
         public Plateau(PlateauSize size, string name)
+        {
+            SetUpPlateau(size, name);
+        }
+
+        private void SetUpPlateau(PlateauSize size, string name)
         {
             Size = size;
             Name = name;
