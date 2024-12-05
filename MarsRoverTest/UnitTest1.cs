@@ -64,8 +64,45 @@ namespace MarsRoverTest
         [Test]
         public void InvalidPositionCreatorTest()
         {
-            Action invalidInput = () => { Creator.CreatePosition("eggplant"); };
-            invalidInput.Should().Throw<ArgumentException>();
+            Action fullyInvalidInput = () => { Creator.CreatePosition("eggplant"); };
+            fullyInvalidInput.Should().Throw<ArgumentException>();
+
+            Action extraSpaceInput = () => { Creator.CreatePosition("1 2 N "); };
+            extraSpaceInput.Should().Throw<ArgumentException>();
+
+            Action notNumbersInput = () => Creator.CreatePosition("J N E");
+            notNumbersInput.Should().Throw<ArgumentException>();
+
+            Action notDirectionInput = () => Creator.CreatePosition("1 3 J");
+            notDirectionInput.Should().Throw<ArgumentException>();
+        }
+
+        [Test]
+        public void PlateauSizeCreatorTest()
+        {
+            PlateauSize correctInput = Creator.CreatePlateauSize("3 3");
+            PlateauSize expected = new(3, 3);
+
+            correctInput.Should().BeEquivalentTo(expected);
+        }
+
+        [Test]
+        public void InvalidPlateauSizeCreatorTest()
+        {
+            Action fullyInvalidInput = () => Creator.CreatePlateauSize("Nigel");
+            fullyInvalidInput.Should().Throw<ArgumentException>();
+
+            Action extraSpaceInput = () => Creator.CreatePlateauSize("4 4 ");
+            extraSpaceInput.Should().Throw<ArgumentException>();
+
+            Action noMiddleSpaceInput = () => Creator.CreatePlateauSize("44");
+            noMiddleSpaceInput.Should().Throw<ArgumentException>();
+
+            Action impossibleDimensionInput = () => Creator.CreatePlateauSize("0 4");
+            impossibleDimensionInput.Should().Throw<ArgumentException>();
+
+            Action notNumbersInput = () => Creator.CreatePlateauSize("4 J");
+            notNumbersInput.Should().Throw<ArgumentException>();
         }
     }
 }

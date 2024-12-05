@@ -23,5 +23,20 @@ namespace MarsRover.InputClasses
 
             return new Position(x, y, facing);
         }
+
+        public static PlateauSize CreatePlateauSize(string input)
+        {
+            string[] inputArray = input.Split(' ');
+            if (inputArray.Length != 2) throw new ArgumentException("Plateau Size input was incorrect length");
+            
+            bool isXValid = Int32.TryParse(inputArray[0], out int x);
+            bool isYValid = Int32.TryParse(inputArray[1], out int y);
+
+            if (!isXValid || !isYValid) throw new ArgumentException("Plateau Size input was invalid.");
+
+            if (x < 1 || y < 1) throw new ArgumentException("Plateau Size must be greater than 0");
+
+            return new PlateauSize(x, y);
+        }
     }
 }
