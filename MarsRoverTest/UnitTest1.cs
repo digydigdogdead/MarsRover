@@ -51,5 +51,21 @@ namespace MarsRoverTest
             Action invalidInput = () => { InputParser.ParseInstruction('d'); };
             invalidInput.Should().Throw<ArgumentException>();
         }
+
+        [Test]
+        public void PositionCreatorTest()
+        {
+            var position1 = Creator.CreatePosition("1 2 N");
+            Position expected1 = new Position(1, 2, Directions.NORTH);
+
+            position1.Should().BeEquivalentTo(expected1);
+        }
+
+        [Test]
+        public void InvalidPositionCreatorTest()
+        {
+            Action invalidInput = () => { Creator.CreatePosition("eggplant"); };
+            invalidInput.Should().Throw<ArgumentException>();
+        }
     }
 }
