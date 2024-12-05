@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MarsRover
 {
-    internal class PlateauSize
+    public class PlateauSize
     {
         public int Xsize {  get; set; }
         public int Ysize { get; set; }
@@ -15,6 +15,11 @@ namespace MarsRover
         {
             Xsize = x;
             Ysize = y;
+        }
+
+        public override string ToString()
+        {
+            return $"Plateau Size of ({Xsize}, {Ysize})";
         }
     }
 }

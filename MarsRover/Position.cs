@@ -18,5 +18,17 @@ namespace MarsRover
             Y = y;
             Facing = facing;
         }
+
+        public override string ToString()
+        {
+            string direction = "";
+
+            if (Facing == Directions.NORTH) direction = "North";
+            else if (Facing == Directions.SOUTH) direction = "South";
+            else if (Facing == Directions.WEST) direction = "West";
+            else direction = "East";
+
+            return $"Position: {X}, {Y}, " + direction;
+        }
     }
 }
