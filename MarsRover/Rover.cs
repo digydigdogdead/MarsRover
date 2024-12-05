@@ -14,10 +14,11 @@ namespace MarsRover
 
         public static int RoverCount = 0;
 
-        internal Rover()
+        public Rover()
         {
             RoverCount++;
             ID = RoverCount;
+            MissionControl.Rovers.Add(this);
         }
 
         public void Move(Instruction instruction)

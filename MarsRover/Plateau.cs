@@ -13,12 +13,20 @@ namespace MarsRover
         public string Name { get; set; }
         public int MaximumCapacity { get; set; }
 
-
-        internal Plateau(PlateauSize size, string name)
+        public Plateau(int sizex, int sizey, string name)
+        {
+            PlateauSize size = new PlateauSize(sizex, sizey);
+            Size = size;
+            Name = name;
+            MaximumCapacity = Size.Xsize * Size.Ysize;
+            MissionControl.Plateaus.Add(this);
+        }
+        public Plateau(PlateauSize size, string name)
         {
             Size = size;
             Name = name;
             MaximumCapacity = Size.Xsize * Size.Ysize;
+            MissionControl.Plateaus.Add(this);
         }
 
         public void AddRover(Rover rover)
