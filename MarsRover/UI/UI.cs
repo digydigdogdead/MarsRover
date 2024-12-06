@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace MarsRover.UI
 {
-    internal static class UI
+    public static class UI
     {
         public static void Welcome()
         {
@@ -19,6 +19,36 @@ namespace MarsRover.UI
             while (true)
             {
                 UserOptions userChoice = GetUserOptions();
+                switch (userChoice)
+                {
+                    case UserOptions.BUILD:
+                        BuildRover();
+                        break;
+
+                    case UserOptions.DISCOVER_PLATEAU:
+                        DiscoverPlateau();
+                        break;
+
+                    case UserOptions.DEPLOY_ROVER:
+                        Rover rover = Input.ChooseRoverAtSource(MissionControl.Rovers);
+                        if (rover is null)
+                        {
+                            throw new NullReferenceException();
+                        }
+                        UserDeployRover(rover);
+                        break;
+
+                    case UserOptions.MOVE_ROVER:
+
+                    case UserOptions.TAKE_SAMPLE:
+
+                    case UserOptions.FILE_BANKRUPTCY:
+
+                    case UserOptions.EXIT:
+                        Environment.Exit(0);
+                        break;
+
+                }
             }
         }
 
@@ -84,6 +114,15 @@ namespace MarsRover.UI
                 Console.WriteLine($"{i+1}. {MissionControl.Plateaus[i].ToString()}");
             }
         }
+
+        public static void GetAllRoversAtSource(List<Rover> source)
+        {
+            for (int i = 0; i < source.Count; i++)
+            {
+                Console.WriteLine($"{i+1}. Rover {source[i].ID}");
+            }
+        }
+
 
         public static void UserDeployRover(Rover rover)
         {
