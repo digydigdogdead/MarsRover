@@ -297,5 +297,37 @@ namespace MarsRoverTest
 
             rover2.Position.Should().BeEquivalentTo(new Position());
         }
+
+        [Test]
+        public void PlateauCheckSpaceIsFreeTest()
+        {
+            var rover = new Rover();
+            var rover2 = new Rover();
+            var plateau = new Plateau(3, 3, "Test");
+
+            var position = new Position();
+
+            bool result1 = plateau.CheckPositionIsFree(position);
+
+            result1.Should().BeTrue();
+
+            MissionControl.DeployRover(rover, plateau, position);
+
+            bool result2 = plateau.CheckPositionIsFree(position);
+
+            result2.Should().BeFalse();
+        }
+
+        [Test]
+        public void PlateauCheckSpaceIsFreeImpossibleTest()
+        {
+            var rover = new Rover();
+            var plateau = new Plateau(3, 3, "Test");
+            Position position = new Position(10, 10, Directions.NORTH);
+
+            bool result = plateau.CheckPositionIsFree(position);
+
+            result.Should().BeFalse();
+        }
     }
 }

@@ -57,6 +57,21 @@ namespace MarsRover
             rover.Plateau = null;
         }
 
+        public bool CheckPositionIsFree(Position position)
+        {
+            if (position.X > Size.Xsize - 1 || position.Y > Size.Ysize - 1)
+            {
+                return false;
+            }
+            
+            foreach (var rover in Rovers)
+            {
+                if (rover.Position.X == position.X && rover.Position.Y == position.Y) return false;
+            }
+
+            return true;
+        }
+
 
         public override string ToString()
         {
