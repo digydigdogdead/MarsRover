@@ -365,5 +365,20 @@ namespace MarsRoverTest
             shouldBeExit.Should().Be(UserOptions.EXIT);
 
         }
+
+        [Test]
+        public void CollectSampleTest()
+        {
+            var rover = new Rover();
+            var plateau = new Plateau(4, 4, "test");
+
+            MissionControl.DeployRover(rover, plateau, new Position());
+
+            rover.CollectSample();
+            rover.CollectSample();
+
+            plateau.Samples.Count.Should().Be(2);
+        }
+
     }
 }

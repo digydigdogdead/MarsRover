@@ -134,6 +134,18 @@ namespace MarsRover
             }
         }
 
+        public void CollectSample()
+        {
+            if (!isDeployed)
+            {
+                Console.WriteLine("This Rover is not at a plateau to get samples from.");
+                return;
+            }
+
+            Sample sample = new();
+
+            Plateau.Samples.Add(sample);
+        }
         public override string ToString()
         {
             string IDstring = $"Rover {ID}";
