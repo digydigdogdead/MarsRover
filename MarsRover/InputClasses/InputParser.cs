@@ -25,7 +25,7 @@ namespace MarsRover.InputClasses
             _ => throw new ArgumentException("Invalid direction input")
         };
 
-        public static bool TryParsePosition(string input, out Position? result)
+        public static bool TryParsePosition(string? input, out Position? result)
         {
             if (String.IsNullOrEmpty(input))
             {
@@ -59,7 +59,7 @@ namespace MarsRover.InputClasses
                 return false;
             }
 
-            Directions direction = ParseDirections(inputArray[2][0]);
+            Directions direction = ParseDirections(Char.ToUpper(inputArray[2][0]));
 
             result = new Position(xPosition, yPosition, direction);
             return true;
