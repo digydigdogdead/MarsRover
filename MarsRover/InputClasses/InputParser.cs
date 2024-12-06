@@ -68,15 +68,6 @@ namespace MarsRover.InputClasses
 
         public static bool TryParseOption(string? input, out UserOptions? result)
         {
-            /*            1.Build a new Rover
-                        2.Discover a new Plateau
-                        3.Deploy an existing Rover
-                        4.Move a rover
-                        5.Take a sample
-                        6. bankruptcy
-                        7. exit
-            */
-            
             if (String.IsNullOrEmpty(input))
             {
                 result = null;
