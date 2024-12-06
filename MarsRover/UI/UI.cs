@@ -2,6 +2,7 @@
 using MarsRover.InputClasses;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Tracing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,6 +19,7 @@ namespace MarsRover.UI
             BuildRover();
             while (true)
             {
+                Console.WriteLine();
                 UserOptions userChoice = GetUserOptions();
                 switch (userChoice)
                 {
@@ -33,12 +35,14 @@ namespace MarsRover.UI
                         Rover rover = Input.ChooseRoverAtSource(MissionControl.Rovers);
                         if (rover is null)
                         {
-                            throw new NullReferenceException();
+                            continue;
                         }
                         UserDeployRover(rover);
                         break;
 
                     case UserOptions.MOVE_ROVER:
+                        UserMoveRover();
+                        break;
 
                     case UserOptions.TAKE_SAMPLE:
 
@@ -109,7 +113,7 @@ namespace MarsRover.UI
 
         public static void GetAllPlateaus()
         {
-            for (int i = 0; i < MissionControl.Rovers.Count; i++)
+            for (int i = 0; i < MissionControl.Plateaus.Count; i++)
             {
                 Console.WriteLine($"{i+1}. {MissionControl.Plateaus[i].ToString()}");
             }
@@ -117,15 +121,32 @@ namespace MarsRover.UI
 
         public static void GetAllRoversAtSource(List<Rover> source)
         {
+            if (source == MissionControl.Rovers)
+            {
+                for (int i = 0; i < source.Count; i++)
+                {
+                    if (!source[i].isDeployed)
+                    {
+                        Console.WriteLine($"{i + 1}. Rover {source[i].ID}");
+                    }
+                }
+                return;
+            }
+            
             for (int i = 0; i < source.Count; i++)
             {
                 Console.WriteLine($"{i+1}. Rover {source[i].ID}");
             }
-        }
 
+        }
 
         public static void UserDeployRover(Rover rover)
         {
+            if (rover.isDeployed)
+            {
+                Console.WriteLine("This rover has already been deployed and cannot be redeployed.");
+                return;
+            }
             Console.WriteLine($"Which Plateau would you like to deploy Rover {rover.ID} to?");
             GetAllPlateaus();
             Plateau? plateauChoice = Input.ChoosePlateau();
@@ -136,6 +157,7 @@ namespace MarsRover.UI
             }
 
             GetAllRoverPositionsAtPlateau(plateauChoice);
+            Console.WriteLine(plateauChoice.Size.ToString());
             Console.WriteLine("What position would you like to deploy the rover to?");
             Console.WriteLine("Please enter a position in the format \"X Y D\", where X and Y are co-ordinates and D is a cardinal direction NESW.");
             bool isPositionValid = false;
@@ -201,6 +223,78 @@ namespace MarsRover.UI
             }
 
             return (UserOptions)result;
+        }
+
+        public static void UserMoveRover()
+        {
+            Console.WriteLine("Which Plateau is the rover you'd like to move roaming on?");
+            GetAllPlateaus();
+            Plateau? plateauChoice = Input.ChoosePlateau();
+
+            if (plateauChoice is null)
+            {
+                return;
+            }
+
+            Console.WriteLine("Which rover would you like to move?");
+            Rover? rover = Input.ChooseRoverAtSource(plateauChoice.Rovers);
+
+            if (rover is null) return;
+
+            Console.WriteLine("This rover's current position is " + rover.Position.ToString());
+            Console.WriteLine("This plateau has a " + plateauChoice.Size.ToString());
+
+            while (true)
+            {
+                Console.WriteLine("""
+                                  Please input your movement instructions.
+                                  L rotates the rover to the Left.
+                                  R rotates the rover to the Right.
+                                  M moves the rover forward.
+                                  Type "Cancel" to cancel.
+                                  """);
+
+                string? userInput = Console.ReadLine();
+                if (String.IsNullOrEmpty(userInput))
+                {
+                    Console.WriteLine("That input was invalid.");
+                    continue;
+                }
+
+                if (userInput.ToUpper() == "CANCEL")
+                {
+                    return;
+                }
+                else
+                {
+                    try
+                    {
+                        rover.ReceiveInstructions(userInput);
+                    }
+                    catch (ArgumentException ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                    }
+                }
+
+                Console.WriteLine("This rover's current position is " + rover.Position.ToString());
+                Console.WriteLine("Would you like to move this rover again? Y or N");
+                string? repeatChoice = Console.ReadLine();
+                bool repeatChoiceIsValid = false;
+                bool goAgain = false;
+
+                while (!repeatChoiceIsValid)
+                {
+                    repeatChoiceIsValid = InputParser.TryGetYesOrNo(repeatChoice, out goAgain);
+                    if (!repeatChoiceIsValid)
+                    {
+                        Console.WriteLine("That input was invalid. Please try again, Y or N");
+                    }
+                }
+
+                if (goAgain) continue;
+                else return;
+            }
         }
     }
 }

@@ -50,6 +50,21 @@ namespace MarsRover.InputClasses
                 Console.WriteLine("No available Rovers.");
                 return null;
             }
+
+            if (source == MissionControl.Rovers)
+            {
+                bool hasUndeployedRovers = false;
+                foreach (Rover rover in source)
+                {
+                    if (!rover.isDeployed) hasUndeployedRovers = true; 
+                }
+
+                if (!hasUndeployedRovers)
+                {
+                    Console.WriteLine("All rovers currently deployed! Try building another one.");
+                    return null;
+                }
+            }
             
             Console.WriteLine("Available rovers are:");
             UI.UI.GetAllRoversAtSource(source);

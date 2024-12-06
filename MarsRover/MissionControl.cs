@@ -20,6 +20,12 @@ namespace MarsRover
 
         public static void DeployRover(Rover rover, Plateau plateau, Position position)
         {
+            if (rover.isDeployed)
+            {
+                Console.WriteLine("This rover has already been deployed and cannot be redeployed.");
+                return;
+            }
+
             foreach (Rover existingRover in plateau.Rovers)
             {
                 if (existingRover.Position.X == position.X && existingRover.Position.Y == position.Y)
@@ -37,6 +43,7 @@ namespace MarsRover
 
             rover.Position = position;
             plateau.AddRover(rover);
+            rover.isDeployed = true;
 
             Console.WriteLine($"Rover {rover.ID} deployed to {plateau.Name}.");
 
