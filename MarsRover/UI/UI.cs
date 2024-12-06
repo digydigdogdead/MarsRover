@@ -67,12 +67,19 @@ namespace MarsRover.UI
                 if (!yOrNValid) Console.WriteLine("Input was invalid, please try again.");
             }
 
-
+            if (userChoice)
+            {
+                Console.WriteLine($"Which Plateau would you like to deploy Rover {newRover.ID} to? Please input the number of your choice.");
+                GetAllPlateaus();
+            }
         }
 
         public static void GetAllPlateaus()
         {
-           
+            for (int i = 0; i < MissionControl.Rovers.Count; i++)
+            {
+                Console.WriteLine($"{i+1}. {MissionControl.Plateaus[i].ToString()}");
+            }
         }
     }
 }
