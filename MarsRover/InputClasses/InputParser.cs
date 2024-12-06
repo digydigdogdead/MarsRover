@@ -24,5 +24,38 @@ namespace MarsRover.InputClasses
             'W' => Directions.WEST,
             _ => throw new ArgumentException("Invalid direction input")
         };
+
+        public static bool TryGetYesOrNo(string? input, out bool result)
+        {
+            if (string.IsNullOrEmpty(input))
+            {
+                result = false;
+                return false;
+            }
+
+            input = input.ToLower();
+
+            if (input.Length != 1)
+            {
+                result = false;
+                return false;
+            }
+
+            if (input[0] != 'y' && input[0] != 'n')
+            {
+                result = false;
+                return false;
+            }
+            else if (input[0] == 'y')
+            {
+                result = true;
+                return true;
+            }
+            else
+            {
+                result = false;
+                return true;
+            }
+        }
     }
 }
