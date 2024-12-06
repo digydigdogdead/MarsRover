@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MarsRover.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -64,6 +65,43 @@ namespace MarsRover.InputClasses
             result = new Position(xPosition, yPosition, direction);
             return true;
         } 
+
+        public static bool TryParseOption(string? input, out UserOptions? result)
+        {
+            /*            1.Build a new Rover
+                        2.Discover a new Plateau
+                        3.Deploy an existing Rover
+                        4.Move a rover
+                        5.Take a sample
+                        6. bankruptcy
+                        7. exit
+            */
+            
+            if (String.IsNullOrEmpty(input))
+            {
+                result = null;
+                return false;
+            }
+
+            bool isNumberValid = Int32.TryParse(input, out int userChoice);
+
+            if (!isNumberValid)
+            {
+                result = null;
+                return false;
+            }
+
+            if (userChoice > 7 || userChoice < 1)
+            {
+                result = null;
+                return false;
+            }
+
+            UserOptions[] optionsArray = Enum.GetValues<UserOptions>();
+
+            result = optionsArray[userChoice-1];
+            return true;
+        }
 
         public static bool TryGetYesOrNo(string? input, out bool result)
         {

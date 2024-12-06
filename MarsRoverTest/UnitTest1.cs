@@ -1,6 +1,7 @@
 using MarsRover;
 using FluentAssertions;
 using MarsRover.InputClasses;
+using MarsRover.Enums;
 
 namespace MarsRoverTest
 {
@@ -328,6 +329,41 @@ namespace MarsRoverTest
             bool result = plateau.CheckPositionIsFree(position);
 
             result.Should().BeFalse();
+        }
+
+        [Test]
+        public void ParseOptionTest()
+        {
+
+            bool result1 = InputParser.TryParseOption("1", out UserOptions? shouldBeBuild);
+            bool result2 = InputParser.TryParseOption("2", out UserOptions? shouldBeDiscover);
+            bool result3 = InputParser.TryParseOption("3", out UserOptions? shouldBeDeploy);
+            bool result4 = InputParser.TryParseOption("4", out UserOptions? shouldBeMove);
+            bool result5 = InputParser.TryParseOption("5", out UserOptions? shouldBeSample);
+            bool result6 = InputParser.TryParseOption("6", out UserOptions? shouldBeFile);
+            bool result7 = InputParser.TryParseOption("7", out UserOptions? shouldBeExit);
+
+            result1.Should().BeTrue();
+            shouldBeBuild.Should().Be(UserOptions.BUILD);
+
+            result2.Should().BeTrue();
+            shouldBeDiscover.Should().Be(UserOptions.DISCOVER_PLATEAU);
+            
+            result3.Should().BeTrue();
+            shouldBeDeploy.Should().Be(UserOptions.DEPLOY_ROVER);
+
+            result4.Should().BeTrue();
+            shouldBeMove.Should().Be(UserOptions.MOVE_ROVER);
+
+            result5.Should().BeTrue();
+            shouldBeSample.Should().Be(UserOptions.TAKE_SAMPLE);
+
+            result6.Should().BeTrue();
+            shouldBeFile.Should().Be(UserOptions.FILE_BANKRUPTCY);
+
+            result7.Should().BeTrue();
+            shouldBeExit.Should().Be(UserOptions.EXIT);
+
         }
     }
 }
