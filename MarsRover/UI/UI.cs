@@ -44,9 +44,26 @@ namespace MarsRover.UI
                         UserMoveRover();
                         break;
 
-                    case UserOptions.TAKE_SAMPLE:
 
                     case UserOptions.FILE_BANKRUPTCY:
+                        Console.WriteLine("""
+                                          And so it has come to this...
+                                          I'm making off with the samples we already have.
+                                          I know some places on the black market who will buy these rover parts.
+                                          The taxman will never get me.
+                                          
+                                          You should start again. 
+                                          Make another space agency with a new face and a new name.
+
+                                          **Years of hiding later**
+
+
+                                          """);
+                        MissionControl.FileForBankRuptcy();
+                        Welcome();
+                        break;
+
+                    case UserOptions.TAKE_SAMPLE:
 
                     case UserOptions.EXIT:
                         Environment.Exit(0);
