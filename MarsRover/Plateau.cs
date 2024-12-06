@@ -10,6 +10,7 @@ namespace MarsRover
     {
         public PlateauSize Size { get; private set; }
         public List<Rover> Rovers { get; private set; } = new List<Rover>();
+        public List<Sample> Samples { get; private set; } = new List<Sample>();
         public string Name { get; set; }
         public int MaximumCapacity { get; set; }
 

@@ -39,5 +39,12 @@ namespace MarsRover
             ROCK,
             LIFE
         }
+
+        public override string ToString() => Type switch
+        {
+            SampleType.DIRT => $"This sample is sample #{ID} and is Dirt.",
+            SampleType.ROCK => $"This sample is sample #{ID} and is a Rock.",
+            SampleType.LIFE => $"This sample is sample #{ID} and is... wait... this is life! It's alive, this changes everything!",
+        };
     }
 }

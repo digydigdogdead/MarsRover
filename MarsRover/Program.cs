@@ -24,5 +24,16 @@ internal class Program
                 Console.WriteLine(rover1.Position.ToString());*/
 
         UI.Welcome();
+
+/*        List<Sample> samples = new List<Sample>();
+        for (int i = 0; i < 1000; i++)
+        { 
+            Sample sample = new Sample();
+            samples.Add(sample);
+        }
+        foreach (Sample sample in samples)
+        {
+            Console.WriteLine(sample.ToString());
+        }*/
     }
 }
