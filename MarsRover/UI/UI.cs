@@ -1,4 +1,5 @@
-﻿using MarsRover.InputClasses;
+﻿using MarsRover.Enums;
+using MarsRover.InputClasses;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +16,10 @@ namespace MarsRover.UI
             DiscoverPlateau();
             Console.WriteLine();
             BuildRover();
-
+            while (true)
+            {
+                UserOptions userChoice = GetUserOptions();
+            }
         }
 
         public static void DiscoverPlateau()
@@ -70,8 +74,6 @@ namespace MarsRover.UI
             if (userChoice)
             {
                 UserDeployRover(newRover);
-
-                
             }
         }
 
@@ -134,6 +136,32 @@ namespace MarsRover.UI
                     Console.WriteLine($"Rover {rover.ID}, {rover.Position.ToString()}");
                 }
             }
+        }
+
+        public static UserOptions GetUserOptions()
+        {
+            Console.WriteLine("What would you like to do?");
+            Console.WriteLine("""
+                              1. Build a new Rover
+                              2. Discover a new Plateau
+                              3. Deploy an existing Rover
+                              4. Move a rover
+                              5. Take a sample
+                              6. File for bankruptcy
+                              7. Exit application
+                              """);
+            
+
+            bool inputIsValid = false;
+            UserOptions? result = null;
+            while (!inputIsValid)
+            {
+                Console.WriteLine("Please input the number of your choice.");
+                inputIsValid = InputParser.TryParseOption(Console.ReadLine(), out result);
+                if(!inputIsValid) Console.WriteLine("Input was invalid, please try again.");
+            }
+
+            return (UserOptions)result;
         }
     }
 }
