@@ -64,6 +64,8 @@ namespace MarsRover.UI
                         break;
 
                     case UserOptions.TAKE_SAMPLE:
+                        UserCollectSample();
+                        break;
 
                     case UserOptions.EXIT:
                         Environment.Exit(0);
@@ -312,6 +314,30 @@ namespace MarsRover.UI
                 if (goAgain) continue;
                 else return;
             }
+        }
+
+        public static void UserCollectSample()
+        {
+            Console.WriteLine("Which Plateau would you like to collect a sample from?");
+            GetAllPlateaus();
+            Plateau? plateauChoice = Input.ChoosePlateau();
+
+            if (plateauChoice is null) return;
+
+            if (plateauChoice.Rovers.Count == 0)
+            {
+                Console.WriteLine("There are no rovers at this Plateau to collect a sample! Consider deploying a rover.");
+                return;
+            }
+
+            Console.WriteLine("Which Rover should collect the sample?");
+            Rover? roverChoice = Input.ChooseRoverAtSource(plateauChoice.Rovers);
+
+            if (roverChoice is null) return;
+
+            roverChoice.CollectSample();
+
+            Console.WriteLine(plateauChoice.Samples[^1].ToString());
         }
     }
 }

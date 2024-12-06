@@ -14,8 +14,8 @@ namespace MarsRover
 
         public Sample()
         {
-            ID = SampleCount;
             SampleCount++;
+            ID = SampleCount;
 
             Random random = new Random();
             int sampleGeneratorInt = random.Next(1, 101);
