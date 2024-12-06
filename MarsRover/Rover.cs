@@ -12,6 +12,7 @@ namespace MarsRover
         public int ID { get; }
         public Position? Position { get; set; }
         public Plateau? Plateau { get; set; }
+        public bool isDeployed { get; set; } = false;
 
         public static int RoverCount = 0;
 
