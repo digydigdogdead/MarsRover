@@ -25,6 +25,46 @@ namespace MarsRover.InputClasses
             _ => throw new ArgumentException("Invalid direction input")
         };
 
+        public static bool TryParsePosition(string input, out Position? result)
+        {
+            if (String.IsNullOrEmpty(input))
+            {
+                result = null;
+                return false;
+            }
+
+            string[] inputArray = input.Split(' ');
+
+            if (inputArray.Length != 3)
+            {
+                result = null;
+                return false;
+            }
+
+            bool firstNumberValid = Int32.TryParse(inputArray[0], out int xPosition);
+            bool secondNumberValid = Int32.TryParse(inputArray[1], out int yPosition);
+
+            if (!firstNumberValid || !secondNumberValid)
+            {
+                result = null;
+                return false;
+            }
+
+            if (inputArray[2].ToUpper() != "N" && 
+                inputArray[2].ToUpper() != "E" &&
+                inputArray[2].ToUpper() != "S" &&
+                inputArray[2].ToUpper() != "W")
+            {
+                result = null;
+                return false;
+            }
+
+            Directions direction = ParseDirections(inputArray[2][0]);
+
+            result = new Position(xPosition, yPosition, direction);
+            return true;
+        } 
+
         public static bool TryGetYesOrNo(string? input, out bool result)
         {
             if (string.IsNullOrEmpty(input))
@@ -57,5 +97,7 @@ namespace MarsRover.InputClasses
                 return true;
             }
         }
+
+
     }
 }
